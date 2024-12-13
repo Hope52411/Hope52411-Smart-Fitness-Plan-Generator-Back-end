@@ -1,0 +1,11 @@
+server:
+  port: 3231
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/cruddemo?characterEncoding=UTF8&autoReconnect=true&serverTimezone=Asia/Shanghai&allowMultiQueries=true
+    username: root
+    password: 167349xxz..
+    driver-class-name: com.mysql.cj.jdbc.Driver
+openai:
+  api:
+    key: "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"
