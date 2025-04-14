@@ -17,18 +17,33 @@ import java.util.List;
 @Service
 public class OpenAIService {
     private static final String OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
-    private static final String API_KEY = "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";
+    private static final String API_KEY = "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";
 
     // 用于保存会话上下文
     private final List<JsonObject> messages = new ArrayList<>();
 
     public OpenAIService() {
-        // 初始化系统角色提示，可以根据需求修改
+        // 初始化系统角色提示，使其更加专业并先询问用户信息Reflection 2 Xiangze Xue
         JsonObject systemMessage = new JsonObject();
         systemMessage.addProperty("role", "system");
-        systemMessage.addProperty("content", "You are a helpful assistant.");
+        systemMessage.addProperty("content",
+                "You are a professional fitness and nutrition assistant. "
+                        + "Your role is to help users create personalized workout routines and diet plans based on their individual needs. "
+                        + "Before providing any recommendations, always ask the user for the following details:\n"
+                        + "1. Age\n"
+                        + "2. Gender\n"
+                        + "3. Height and weight\n"
+                        + "4. Fitness goal (e.g., weight loss, muscle gain, endurance improvement, general health)\n"
+                        + "5. Current fitness level (beginner, intermediate, advanced)\n"
+                        + "6. Any dietary restrictions or preferences\n"
+                        + "7. Any existing medical conditions or injuries that may affect training\n"
+                        + "Once you have gathered this information, provide tailored fitness and nutrition advice, ensuring safety and effectiveness. "
+                        + "Use scientifically backed principles and always recommend consulting a certified trainer or nutritionist for medical concerns."
+        );
+
         messages.add(systemMessage);
     }
+
 
     public String getChatResponse(String userMessage) {
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {

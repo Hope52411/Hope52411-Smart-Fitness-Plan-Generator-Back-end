@@ -1,10 +1,14 @@
 package com.xxz.loginhouduan.resp;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 public class SysUserLoginResp {
+
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long id;
 
     private String LoginName;
-
     private String password;
 
     public Long getId() {

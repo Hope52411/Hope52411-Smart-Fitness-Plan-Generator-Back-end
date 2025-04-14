@@ -78,4 +78,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserEntity
         }
     }
 
+    @Override
+    public List<SysUserEntity> searchUsersByName(String name) {
+        QueryWrapper<SysUserEntity> wrapper = new QueryWrapper<>();
+        wrapper.lambda().like(SysUserEntity::getLoginName, name);
+        return sysUserMapper.selectList(wrapper);
+    }
+
+
 }

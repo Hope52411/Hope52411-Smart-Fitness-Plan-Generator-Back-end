@@ -13,7 +13,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/sys-user")
@@ -74,5 +77,18 @@ public class SysUserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting user: " + e.getMessage());
         }
     }
+    @GetMapping("/search")
+    public List<Map<String, Object>> searchUsers(@RequestParam String name) {
+        List<SysUserEntity> list = sysUserService.searchUsersByName(name);
+        return list.stream().map(user -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", String.valueOf(user.getId()));
+            map.put("loginName", user.getLoginName());
+            map.put("email", user.getEmail());
+            return map;
+        }).collect(Collectors.toList());
+    }
+
 
 }
+

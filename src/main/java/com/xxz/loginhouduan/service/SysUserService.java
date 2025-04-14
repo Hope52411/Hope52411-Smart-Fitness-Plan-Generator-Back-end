@@ -1,9 +1,10 @@
 package com.xxz.loginhouduan.service;
 
+import com.xxz.loginhouduan.entity.SysUserEntity;
 import com.xxz.loginhouduan.req.SysUserLoginReq;
 import com.xxz.loginhouduan.req.SysUserSaveReq;
 import com.xxz.loginhouduan.resp.SysUserLoginResp;
-
+import java.util.List;
 public interface SysUserService {
     void register(SysUserSaveReq req);
 
@@ -11,4 +12,5 @@ public interface SysUserService {
 
     // 添加删除用户的方法
     void deleteUserById(Long id);
+    List<SysUserEntity> searchUsersByName(String name);
 }
