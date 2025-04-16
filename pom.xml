@@ -145,7 +145,6 @@
                 <version>${spring-boot.version}</version>
                 <configuration>
                     <mainClass>com.xxz.loginhouduan.LoginhouduanApplication</mainClass>
-                    <skip>true</skip>
                 </configuration>
                 <executions>
                     <execution>
@@ -156,6 +155,7 @@
                     </execution>
                 </executions>
             </plugin>
+
         </plugins>
     </build>
 

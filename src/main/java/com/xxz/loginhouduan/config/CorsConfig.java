@@ -10,10 +10,11 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOriginPatterns("http://10.33.73.18:8080")  // ❗️不要加最后的 /
+                .allowedOriginPatterns("https://hope52411.tech")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
-                .allowCredentials(true)  // ✅ 允许携带 cookie/凭据
+                .allowCredentials(true)
                 .maxAge(3600);
     }
+
 }
