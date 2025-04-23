@@ -63,13 +63,13 @@ public class ChatController {
             throw new IllegalArgumentException("userMessage cannot be empty");
         }
 
-        // 🛠 3. 查找用户，避免 `null`
+        // 🛠 3. 查找用户，避免 null
         SysUserEntity user = userRepository.findByLoginName(loginName);
         if (user == null) {
             throw new RuntimeException("User not found: " + loginName);
         }
 
-        // 🛠 4. 获取用户聊天历史，确保不为 `null`
+        // 🛠 4. 获取用户聊天历史，确保不为 null
         List<Map<String, String>> chatHistory = new ArrayList<>();
         if (user.getChatHistory() != null && !user.getChatHistory().trim().isEmpty()) {
             chatHistory = gson.fromJson(user.getChatHistory(), new TypeToken<List<Map<String, String>>>() {}.getType());
@@ -81,7 +81,7 @@ public class ChatController {
         userMsg.put("content", userMessage);
         chatHistory.add(userMsg);
 
-        // 🛠 5. 确保 AI 回复不会是 `null`
+        // 🛠 5. 确保 AI 回复不会是 null
         String aiResponse = openAIService.getChatResponse(userMessage);
         if (aiResponse == null) {
             aiResponse = "Sorry, I couldn't process your request.";
@@ -118,4 +118,3 @@ public class ChatController {
         return gson.fromJson(user.getChatHistory(), new TypeToken<List<Map<String, String>>>() {}.getType());
     }
 }
-
