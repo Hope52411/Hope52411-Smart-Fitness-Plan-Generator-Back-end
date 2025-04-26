@@ -23,10 +23,8 @@ public class EmailService {
     public void sendEmail(String toEmail, String resetToken) {
         String subject = "🔐 Password Reset Request";
 
-        // ✅ 这里改成 Vue Router 的 `hash` 模式 URL
-        String resetLink = "http://localhost:8080/#/ResetPassword?token=" + resetToken;
+        String resetLink = "https://hope52411.tech/ResetPassword?token=" + resetToken;
 
-        // ✅ 让邮件格式更清晰 & 可读性更强
         String body = "<div style='font-family: Arial, sans-serif; max-width: 600px; padding: 20px; border: 1px solid #ddd; border-radius: 8px;'>"
                 + "<h2 style='color: #333;'>🔐 Hello,</h2>"
                 + "<p>You are receiving this email because a <strong>password reset request</strong> was made for your account.</p>"
