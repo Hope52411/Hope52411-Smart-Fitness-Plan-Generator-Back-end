@@ -38,6 +38,9 @@ spring:
     resources:
       static-locations: file:./uploads/
 
+app:
+  frontend-domain: ${FRONTEND_DOMAIN}
+
 openai:
   api:
     key: ${OPENAI_API_KEY}
