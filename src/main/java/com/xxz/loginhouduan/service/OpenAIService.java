@@ -19,11 +19,11 @@ public class OpenAIService {
     private static final String OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
     private static final String API_KEY = "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";
 
-    // 用于保存会话上下文
+    // Used to store the conversation context
     private final List<JsonObject> messages = new ArrayList<>();
 
     public OpenAIService() {
-        // 初始化系统角色提示，使其更加专业并先询问用户信息Reflection 2 Xiangze Xue
+        // Initialize system message to set up the assistant's behavior and ask for user details
         JsonObject systemMessage = new JsonObject();
         systemMessage.addProperty("role", "system");
         systemMessage.addProperty("content",
@@ -49,17 +49,17 @@ public class OpenAIService {
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             HttpPost request = new HttpPost(OPENAI_API_URL);
 
-            // 设置请求头
+            // Set request headers
             request.setHeader("Content-Type", "application/json");
             request.setHeader("Authorization", "Bearer " + API_KEY);
 
-            // 添加用户消息到上下文
+            // Add user message to context
             JsonObject userMessageObject = new JsonObject();
             userMessageObject.addProperty("role", "user");
             userMessageObject.addProperty("content", userMessage);
             messages.add(userMessageObject);
 
-
+            // Prepare request body
             JsonObject requestBody = new JsonObject();
             requestBody.addProperty("model", "gpt-4o");
 
@@ -73,7 +73,7 @@ public class OpenAIService {
             request.setEntity(entity);
 
 
-            // 发送请求
+            // Send the request
             try (CloseableHttpResponse response = httpClient.execute(request)) {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
                 StringBuilder result = new StringBuilder();
@@ -82,7 +82,7 @@ public class OpenAIService {
                     result.append(line);
                 }
 
-                // 解析响应
+                // Parse the response
                 JsonObject jsonResponse = new com.google.gson.JsonParser().parse(result.toString()).getAsJsonObject();
                 String assistantMessage = jsonResponse
                         .getAsJsonArray("choices")
@@ -93,7 +93,7 @@ public class OpenAIService {
                         .get("content")
                         .getAsString();
 
-                // 将助手回复添加到上下文
+                // Add assistant's response to the context
                 JsonObject assistantMessageObject = new JsonObject();
                 assistantMessageObject.addProperty("role", "assistant");
                 assistantMessageObject.addProperty("content", assistantMessage);

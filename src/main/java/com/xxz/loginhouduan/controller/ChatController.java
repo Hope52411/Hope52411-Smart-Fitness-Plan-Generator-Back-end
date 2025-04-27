@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 @RestController
 @RequestMapping("/api/chat")
 @CrossOrigin(origins = "http://localhost:8080")
@@ -47,7 +48,7 @@ public class ChatController {
 
     @PostMapping
     public Map<String, String> chat(@RequestBody(required = false) Map<String, String> request) {
-        // 🛠 1. 确保请求参数不为空
+        // 🛠 1. Ensure request parameters are not null
         if (request == null || !request.containsKey("loginName") || !request.containsKey("userMessage")) {
             throw new IllegalArgumentException("Invalid request: missing loginName or userMessage");
         }
@@ -55,7 +56,7 @@ public class ChatController {
         String loginName = request.get("loginName");
         String userMessage = request.get("userMessage");
 
-        // 🛠 2. 确保 loginName 和 userMessage 不能为空
+        // 🛠 2. Ensure loginName and userMessage are not empty
         if (loginName == null || loginName.trim().isEmpty()) {
             throw new IllegalArgumentException("loginName cannot be empty");
         }
@@ -63,37 +64,37 @@ public class ChatController {
             throw new IllegalArgumentException("userMessage cannot be empty");
         }
 
-        // 🛠 3. 查找用户，避免 null
+        // 🛠 3. Find the user to avoid null
         SysUserEntity user = userRepository.findByLoginName(loginName);
         if (user == null) {
             throw new RuntimeException("User not found: " + loginName);
         }
 
-        // 🛠 4. 获取用户聊天历史，确保不为 null
+        // 🛠 4. Get user chat history, ensure it's not null
         List<Map<String, String>> chatHistory = new ArrayList<>();
         if (user.getChatHistory() != null && !user.getChatHistory().trim().isEmpty()) {
             chatHistory = gson.fromJson(user.getChatHistory(), new TypeToken<List<Map<String, String>>>() {}.getType());
         }
 
-        // 添加用户消息
+        // Add user message
         Map<String, String> userMsg = new HashMap<>();
         userMsg.put("role", "user");
         userMsg.put("content", userMessage);
         chatHistory.add(userMsg);
 
-        // 🛠 5. 确保 AI 回复不会是 null
+        // 🛠 5. Ensure AI response is not null
         String aiResponse = openAIService.getChatResponse(userMessage);
         if (aiResponse == null) {
             aiResponse = "Sorry, I couldn't process your request.";
         }
 
-        // 添加 AI 回复
+        // Add AI response
         Map<String, String> aiMsg = new HashMap<>();
         aiMsg.put("role", "assistant");
         aiMsg.put("content", formatAiResponse(aiResponse));
         chatHistory.add(aiMsg);
 
-        // 🛠 6. 存储新的聊天记录
+        // 🛠 6. Store new chat history
         user.setChatHistory(gson.toJson(chatHistory));
         userRepository.updateChatHistory(user.getId(), user.getChatHistory());
 

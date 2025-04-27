@@ -22,7 +22,7 @@ public class PostService {
     @Autowired
     private CommentRepository commentRepository;
 
-    // ✅ 获取所有帖子（自动计算 timeAgo）
+    // ✅ Get all posts (automatically calculate timeAgo)
     public List<Post> getAllPosts(String userName) {
         List<Post> posts = postRepository.findAllPosts();
         for (Post post : posts) {
@@ -43,7 +43,7 @@ public class PostService {
         return posts;
     }
 
-    // ✅ 发布新帖子
+    // ✅ Post a new post
     public Post createPost(Post post) {
         post.setLikes(0);
         post.setCreatedAt(new Date()); // ✅ 记录创建时间
@@ -51,13 +51,13 @@ public class PostService {
         return postRepository.save(post);
     }
 
-    // ✅ 删除帖子（仅作者可删除）
+    // ✅ Delete the post (only the author can delete)
     public boolean deletePost(Long postId, String userName) {
         Optional<Post> postOptional = postRepository.findById(postId);
 
         if (postOptional.isPresent()) {
             Post post = postOptional.get();
-            if (post.getUserName().equals(userName)) { // ✅ 确保当前用户是作者
+            if (post.getUserName().equals(userName)) {
                 postRepository.deleteById(postId);
                 return true;
             } else {
@@ -68,7 +68,7 @@ public class PostService {
         }
     }
 
-    // ✅ 点赞帖子
+    // ✅ like post
     public Map<String, Object> likePost(Long postId, String userName) {
         Optional<Post> postOpt = postRepository.findById(postId);
         if (!postOpt.isPresent()) {
@@ -97,7 +97,7 @@ public class PostService {
         return response;
     }
 
-    // ✅ 添加评论
+    // ✅ add comment
     public Comment addComment(Long postId, Comment comment) {
         Optional<Post> postOpt = postRepository.findById(postId);
         if (!postOpt.isPresent()) {
@@ -105,14 +105,14 @@ public class PostService {
         }
 
         comment.setPost(postOpt.get());
-        comment.setCreatedAt(new Date());  // ✅ 这里设置 `createdAt`
-        comment.setTimeAgo("Just now");  // ✅ 刚评论时显示 "Just now"
+        comment.setCreatedAt(new Date());
+        comment.setTimeAgo("Just now");
         return commentRepository.save(comment);
     }
 
 
 
-    // ✅ 计算时间差（返回 timeAgo 格式）
+    // ✅ Calculate the time difference (return the timeAgo format)
     private String formatTimeAgo(Date createdAt) {
         Instant instant = createdAt.toInstant();
         LocalDateTime postTime = instant.atZone(ZoneId.systemDefault()).toLocalDateTime();

@@ -50,7 +50,6 @@ public class UploadController {
 
             file.transferTo(destinationFile);
 
-            // ✅ 确保返回正确的 URL
             String fileUrl = "/uploads/" + newFilename;
             return ResponseEntity.ok().body("{\"url\": \"" + fileUrl + "\"}");
 
@@ -59,7 +58,6 @@ public class UploadController {
         }
     }
 
-    // ✅ 让 `/uploads/` 目录里的文件可以被访问
     @GetMapping("/uploads/{filename:.+}")
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
         try {

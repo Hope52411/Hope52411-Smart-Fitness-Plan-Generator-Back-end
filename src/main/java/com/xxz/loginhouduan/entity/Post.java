@@ -23,13 +23,13 @@ public class Post {
     @ElementCollection
     @CollectionTable(name = "post_images", joinColumns = @JoinColumn(name = "post_id"))
     @Column(name = "image_url")
-    private List<String> images; // ✅ 存储图片 URL
+    private List<String> images; // Stores image URLs
 
-    private String video; // ✅ 存储视频 URL
+    private String video; // Stores video URL
 
     @Column(name = "created_at", updatable = false, nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt; // ✅ 新增字段：帖子创建时间
+    private Date createdAt; // New field: post creation time
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "post_liked_users", joinColumns = @JoinColumn(name = "post_id"))
@@ -44,15 +44,15 @@ public class Post {
     @Transient
     private boolean isLiked;
 
-    public boolean getIsLiked() { // ✅ 添加 getter
+    public boolean getIsLiked() { // Getter for isLiked
         return isLiked;
     }
 
-    public void setIsLiked(boolean isLiked) { // ✅ 添加 setter
+    public void setIsLiked(boolean isLiked) { // Setter for isLiked
         this.isLiked = isLiked;
     }
 
-    // ✅ 在新建帖子时自动设置 `createdAt`
+    // Automatically set `createdAt` when a post is created
     @PrePersist
     protected void onCreate() {
         createdAt = new Date();

@@ -17,18 +17,18 @@ public class Comment {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
-    @JsonIgnoreProperties("comments")  // ✅ 避免 JSON 无限递归
+    @JsonIgnoreProperties("comments")  // Prevents JSON infinite recursion
     private Post post;
 
     private String userName;
     private String content;
     private String timeAgo;
 
-    @Temporal(TemporalType.TIMESTAMP)  // ✅ 让 Hibernate 以时间戳格式存储
+    @Temporal(TemporalType.TIMESTAMP)  // Ensures Hibernate stores the field as a timestamp
     @Column(name = "created_at", updatable = false, nullable = false)
     private Date createdAt;
 
-    // ✅ 修正 equals() 和 hashCode()，不包含 post
+    // Fixes equals() and hashCode() to exclude the post field
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

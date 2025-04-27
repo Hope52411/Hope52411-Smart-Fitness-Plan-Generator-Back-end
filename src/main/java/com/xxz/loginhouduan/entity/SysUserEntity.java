@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@TableName("sys_user")  // 关联数据库表
+@TableName("sys_user")  // Associates with the database table
 public class SysUserEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -14,14 +14,14 @@ public class SysUserEntity implements Serializable {
     private String email;
     private String password;
 
-    @TableField("reset_token") // 让 MyBatis-Plus 识别数据库字段
+    @TableField("reset_token") // Tells MyBatis-Plus to recognize the database field
     private String resetToken;
 
     @TableField("reset_token_expire")
     private LocalDateTime resetTokenExpire;
 
-    @TableField("chat_history") // 让 MyBatis-Plus 识别数据库字段
-    private String chatHistory;  // 存储 JSON 格式的聊天记录
+    @TableField("chat_history") // Tells MyBatis-Plus to recognize the database field
+    private String chatHistory;  // Stores chat history in JSON format
 
     // Getters and Setters
     public Long getId() { return id; }
@@ -45,7 +45,7 @@ public class SysUserEntity implements Serializable {
     public String getChatHistory() { return chatHistory; }
     public void setChatHistory(String chatHistory) { this.chatHistory = chatHistory; }
 
-    // toString 方法
+    // toString method
     @Override
     public String toString() {
         return "SysUserEntity{" +

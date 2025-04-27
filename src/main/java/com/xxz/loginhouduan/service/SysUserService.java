@@ -10,7 +10,7 @@ public interface SysUserService {
 
     SysUserLoginResp login(SysUserLoginReq req);
 
-    // 添加删除用户的方法
+    // Methods for adding and deleting users
     void deleteUserById(Long id);
     List<SysUserEntity> searchUsersByName(String name);
 }
