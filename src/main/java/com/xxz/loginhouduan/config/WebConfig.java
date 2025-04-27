@@ -11,16 +11,16 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // ✅ 1️⃣  获取当前项目的绝对路径，确保路径正确
-        String uploadDir = "./uploads/";  // `./uploads/` 代表相对路径
+        // ✅ 1️⃣ Get the absolute path of the current project to ensure correctness
+        String uploadDir = "./uploads/";  // `./uploads/` represents a relative path
         File uploadFolder = new File(uploadDir);
 
-        // ✅ 2️⃣ 如果 `uploads/` 目录不存在，则自动创建
+        // ✅ 2️⃣ Create the `uploads/` directory if it does not exist
         if (!uploadFolder.exists()) {
             uploadFolder.mkdirs();
         }
 
-        // ✅ 3️⃣ 映射 `/uploads/**` 到本地 `uploads/` 目录
+        // ✅ 3️⃣ Map `/uploads/**` to the local `uploads/` directory
         String absoluteUploadPath = uploadFolder.getAbsolutePath();
         registry.addResourceHandler("/uploads/**")
                 .addResourceLocations("file:" + absoluteUploadPath + "/");
