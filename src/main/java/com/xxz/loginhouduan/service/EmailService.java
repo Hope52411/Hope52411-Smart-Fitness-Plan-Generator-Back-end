@@ -23,7 +23,7 @@ public class EmailService {
     public void sendEmail(String toEmail, String resetToken) {
         String subject = "🔐 Password Reset Request";
 
-        String resetLink = "https://hope52411.tech/ResetPassword?token=" + resetToken;
+        String resetLink = "https://hope52411.tech/resetPassword?token=" + resetToken;
 
         String body = "<div style='font-family: Arial, sans-serif; max-width: 600px; padding: 20px; border: 1px solid #ddd; border-radius: 8px;'>"
                 + "<h2 style='color: #333;'>🔐 Hello,</h2>"
