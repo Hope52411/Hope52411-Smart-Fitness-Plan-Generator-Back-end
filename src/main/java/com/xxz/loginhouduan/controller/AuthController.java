@@ -10,9 +10,13 @@ import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * AuthController handles authentication-related operations
+ */
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -23,12 +27,12 @@ public class AuthController {
     @Autowired
     private EmailService emailService;
 
-    // Frontend domain for password reset link, configured in application.yml
+    // Frontend domain configured in application.yml
     @Value("${app.frontend-domain}")
     private String frontendDomain;
 
     /**
-     * Forgot Password - Send password reset email
+     * Forgot Password - send reset link to user's email
      * @param request Request body containing user's email
      * @return Response message
      */
@@ -41,25 +45,29 @@ public class AuthController {
             return ResponseEntity.badRequest().body("This email is not registered.");
         }
 
-        // Generate a unique reset token and expiration time (valid for 1 hour)
+        // Generate a unique token and set expiration time (1 hour later)
         String resetToken = UUID.randomUUID().toString();
         LocalDateTime expireTime = LocalDateTime.now().plusHours(1);
 
-        // Update user's reset token and expiration time in database
-        sysUserMapper.updateResetToken(email, resetToken, expireTime.toString());
+        // Format expireTime into SQL DATETIME format
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String expireTimeStr = expireTime.format(formatter);
 
-        // Build the password reset link
+        // Update user with reset token and expiration
+        sysUserMapper.updateResetToken(email, resetToken, expireTimeStr);
+
+        // Build reset password link
         String resetLink = frontendDomain + "/reset-password?token=" + resetToken;
 
-        // Send password reset email
-        emailService.sendEmail(email, resetToken);
+        // Send reset email
+        emailService.sendEmail(email, resetLink);
 
         return ResponseEntity.ok("A password reset link has been sent to your email.");
     }
 
     /**
-     * Reset Password
-     * @param request Request body containing reset token and new password
+     * Reset Password - user submits new password using token
+     * @param request Request body containing token and new password
      * @return Response message
      */
     @PostMapping("/reset-password")
@@ -67,24 +75,22 @@ public class AuthController {
         String token = request.get("token");
         String newPassword = request.get("newPassword");
 
-        // Find user by reset token
+        // Find user by token
         SysUserEntity user = sysUserMapper.findByResetToken(token);
         if (user == null) {
             return ResponseEntity.badRequest().body("Invalid or expired reset link.");
         }
 
-        // Get token expiration time
+        // Check token expiration
         LocalDateTime expireTime = user.getResetTokenExpire();
-
-        // Check if token has expired
         if (expireTime.isBefore(LocalDateTime.now())) {
             return ResponseEntity.badRequest().body("Reset link has expired. Please request a new one.");
         }
 
-        // Encrypt the new password using MD5
+        // Encrypt new password using MD5
         String encryptedPassword = DigestUtils.md5DigestAsHex(newPassword.getBytes());
 
-        // Update user's password in database
+        // Update password and clear reset token
         sysUserMapper.updatePassword(token, encryptedPassword);
 
         return ResponseEntity.ok("Your password has been successfully reset.");
