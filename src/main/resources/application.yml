@@ -39,7 +39,7 @@ spring:
       static-locations: file:./uploads/
 
 app:
-  frontend-domain: ${FRONTEND_DOMAIN}
+  frontend-domain: https://hope52411.tech
 
 openai:
   api:
