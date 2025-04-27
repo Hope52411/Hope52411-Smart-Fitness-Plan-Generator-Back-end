@@ -47,7 +47,7 @@ public class AuthController {
 
         // Generate a unique token and set expiration time (1 hour later)
         String resetToken = UUID.randomUUID().toString();
-        LocalDateTime expireTime = LocalDateTime.now().plusHours(1);
+        LocalDateTime expireTime = LocalDateTime.now().plusHours(2);
 
         // Format expireTime into SQL DATETIME format
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
