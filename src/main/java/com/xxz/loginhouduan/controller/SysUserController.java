@@ -88,6 +88,15 @@ public class SysUserController {
             return map;
         }).collect(Collectors.toList());
     }
+    @GetMapping("/get-id")
+    public ResponseEntity<Long> getUserIdByLoginName(@RequestParam String loginName) {
+        List<SysUserEntity> users = sysUserService.searchUsersByName(loginName);
+        if (!users.isEmpty()) {
+            return ResponseEntity.ok(users.get(0).getId());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
 
 
 }
