@@ -54,7 +54,7 @@ public class UploadController {
             return ResponseEntity.ok().body("{\"url\": \"" + fileUrl + "\"}");
 
         } catch (IOException e) {
-            return ResponseEntity.status(500).body("上传失败：" + e.getMessage());
+            return ResponseEntity.status(500).body("上传失败:" + e.getMessage());
         }
     }
 
