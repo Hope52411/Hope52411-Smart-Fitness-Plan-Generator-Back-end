@@ -17,7 +17,7 @@ import java.util.List;
 @Service
 public class OpenAIService {
     private static final String OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
-    private static final String API_KEY = "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";
+    private static final String API_KEY = "OPENAI_API_KEY";
 
     // Used to store the conversation context
     private final List<JsonObject> messages = new ArrayList<>();
