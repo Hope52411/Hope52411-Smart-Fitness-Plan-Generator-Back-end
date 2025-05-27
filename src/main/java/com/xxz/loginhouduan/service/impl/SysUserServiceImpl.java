@@ -85,5 +85,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserEntity
         return sysUserMapper.selectList(wrapper);
     }
 
+    @Override
+    public void deleteByLoginName(String username) {
+
+    }
+
 
 }

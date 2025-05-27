@@ -118,4 +118,11 @@ public class ChatController {
 
         return gson.fromJson(user.getChatHistory(), new TypeToken<List<Map<String, String>>>() {}.getType());
     }
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(org.springframework.http.HttpStatus.BAD_REQUEST)
+    public Map<String, String> handleIllegalArgumentException(IllegalArgumentException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("error", ex.getMessage());
+        return errorResponse;
+    }
 }

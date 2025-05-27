@@ -24,10 +24,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
-        format_sql: true
+        format_sql: false
 
   servlet:
     multipart:
@@ -38,6 +38,11 @@ spring:
   web:
     resources:
       static-locations: file:./uploads/
+
+logging:
+  level:
+    org.hibernate.SQL: OFF
+    org.hibernate.type.descriptor.sql: OFF
 
 app:
   frontend-domain: https://hope52411.tech

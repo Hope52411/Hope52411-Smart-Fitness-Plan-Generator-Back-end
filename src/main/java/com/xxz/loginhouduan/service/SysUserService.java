@@ -13,4 +13,6 @@ public interface SysUserService {
     // Methods for adding and deleting users
     void deleteUserById(Long id);
     List<SysUserEntity> searchUsersByName(String name);
+
+    void deleteByLoginName(String username);
 }

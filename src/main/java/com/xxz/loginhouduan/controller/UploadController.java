@@ -78,7 +78,7 @@ public class UploadController {
         }
     }
     @ControllerAdvice
-    public class FileUploadExceptionAdvice {
+    public static class FileUploadExceptionAdvice {
 
         @ExceptionHandler(  MaxUploadSizeExceededException.class)
         public ResponseEntity<?> handleMaxSizeException(MaxUploadSizeExceededException ex) {

@@ -46,8 +46,8 @@ public class PostService {
     // ✅ Post a new post
     public Post createPost(Post post) {
         post.setLikes(0);
-        post.setCreatedAt(new Date()); // ✅ 记录创建时间
-        post.setTimeAgo("Just now");  // ✅ 默认显示 "Just now"
+        post.setCreatedAt(new Date());
+        post.setTimeAgo("Just now");
         return postRepository.save(post);
     }
 
